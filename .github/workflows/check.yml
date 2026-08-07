@@ -18,4 +18,4 @@ jobs:
       - name: Flake check and build
         run: |
           nix flake check -L
-          nix build -L .#grok-build .#claude-code
+          nix build -L .#grok-build .#claude-code .#pad

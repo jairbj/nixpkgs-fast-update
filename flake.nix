@@ -25,6 +25,7 @@
           packages = {
             grok-build = pkgs.callPackage ./pkgs/grok-build/package.nix { };
             claude-code = pkgs.callPackage ./pkgs/claude-code/package.nix { };
+            pad = pkgs.callPackage ./pkgs/pad/package.nix { };
           };
         in
         packages
@@ -36,6 +37,7 @@
       overlays.default = final: _prev: {
         grok-build = final.callPackage ./pkgs/grok-build/package.nix { };
         claude-code = final.callPackage ./pkgs/claude-code/package.nix { };
+        pad = final.callPackage ./pkgs/pad/package.nix { };
       };
 
       checks = forAllSystems (
@@ -46,6 +48,7 @@
         {
           grok-build = self.packages.${system}.grok-build;
           claude-code = self.packages.${system}.claude-code;
+          pad = self.packages.${system}.pad;
         }
       );
 

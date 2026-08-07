@@ -6,12 +6,13 @@ Em vez de compilar do zero (ou esperar o canal oficial), este repositório baixa
 
 ## Pacotes
 
-| Pacote | Binário upstream | Plataforma (bootstrap) |
-|--------|------------------|------------------------|
-| [`grok-build`](pkgs/grok-build) | [x.ai/cli](https://x.ai/cli) | `x86_64-linux` |
-| [`claude-code`](pkgs/claude-code) | [Anthropic releases](https://downloads.claude.ai/claude-code-releases) | `x86_64-linux` |
+| Pacote | Binário upstream | Plataforma (bootstrap) | Licença |
+|--------|------------------|------------------------|---------|
+| [`grok-build`](pkgs/grok-build) | [x.ai/cli](https://x.ai/cli) | `x86_64-linux` | unfree |
+| [`claude-code`](pkgs/claude-code) | [Anthropic releases](https://downloads.claude.ai/claude-code-releases) | `x86_64-linux` | unfree |
+| [`pad`](pkgs/pad) | [PerpetualSoftware/pad](https://github.com/PerpetualSoftware/pad/releases) | `x86_64-linux` | Apache-2.0 |
 
-Ambos são **unfree**. O flake já define `config.allowUnfree = true` para estes outputs.
+`grok-build` e `claude-code` são **unfree**. O flake define `config.allowUnfree = true` para estes outputs.
 
 ## Uso
 
@@ -20,6 +21,7 @@ Ambos são **unfree**. O flake já define `config.allowUnfree = true` para estes
 ```bash
 nix run github:<owner>/nixpkgs-fast-update#grok-build
 nix run github:<owner>/nixpkgs-fast-update#claude-code
+nix run github:<owner>/nixpkgs-fast-update#pad
 ```
 
 ### Overlay (NixOS / home-manager)
@@ -38,6 +40,7 @@ nix run github:<owner>/nixpkgs-fast-update#claude-code
             # usa a versão deste repo em vez da do nixpkgs
             pkgs.grok-build
             pkgs.claude-code
+            pkgs.pad
           ];
         }
       ];
@@ -52,6 +55,7 @@ nix run github:<owner>/nixpkgs-fast-update#claude-code
 environment.systemPackages = [
   inputs.nixpkgs-fast-update.packages.${pkgs.system}.grok-build
   inputs.nixpkgs-fast-update.packages.${pkgs.system}.claude-code
+  inputs.nixpkgs-fast-update.packages.${pkgs.system}.pad
 ];
 ```
 
@@ -71,6 +75,7 @@ Scripts locais:
 ./scripts/update-all.sh          # todos os pacotes
 ./pkgs/grok-build/update.sh      # só grok
 ./pkgs/claude-code/update.sh     # só claude (ou: ./pkgs/claude-code/update.sh 2.1.224)
+./pkgs/pad/update.sh             # só pad
 ```
 
 ## Adicionar um pacote
@@ -92,4 +97,4 @@ A lógica de empacotamento segue de perto o nixpkgs:
 
 O código deste repositório (Nix, scripts, CI) está sob [MIT](LICENSE).
 
-Os binários empacotados permanecem sob as licenças dos respectivos vendors (xAI / Anthropic) e são marcados como `unfree` / `unfreeRedistributable`.
+Os binários empacotados permanecem sob as licenças dos respectivos vendors (xAI / Anthropic / Perpetual Software). Pacotes unfree estão marcados como `unfree` / `unfreeRedistributable`.
