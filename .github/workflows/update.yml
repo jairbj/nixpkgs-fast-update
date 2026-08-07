@@ -1,0 +1,59 @@
+name: Update packages
+
+on:
+  schedule:
+    # Every 6 hours
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v16
+
+      - name: Update package sources
+        run: ./scripts/update-all.sh
+
+      - name: Detect changes
+        id: changes
+        run: |
+          if git diff --quiet -- pkgs/ && [ -z "$(git ls-files --others --exclude-standard -- pkgs/)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify builds
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          nix flake check -L
+          nix build -L .#grok-build .#claude-code
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          packages=()
+          if git diff --name-only -- pkgs/grok-build/ | grep -q .; then
+            ver=$(jq -r .version pkgs/grok-build/sources.json)
+            packages+=("grok-build@$ver")
+          fi
+          if git diff --name-only -- pkgs/claude-code/ | grep -q .; then
+            ver=$(jq -r .version pkgs/claude-code/manifest.json)
+            packages+=("claude-code@$ver")
+          fi
+
+          msg="chore: update ${packages[*]}"
+          git add pkgs/
+          git commit -m "$msg"
+          git push
