@@ -11,6 +11,7 @@ Em vez de compilar do zero (ou esperar o canal oficial), este repositório baixa
 | [`grok-build`](pkgs/grok-build) | [x.ai/cli](https://x.ai/cli) | `x86_64-linux` | unfree |
 | [`claude-code`](pkgs/claude-code) | [Anthropic releases](https://downloads.claude.ai/claude-code-releases) | `x86_64-linux` | unfree |
 | [`pad`](pkgs/pad) | [PerpetualSoftware/pad](https://github.com/PerpetualSoftware/pad/releases) | `x86_64-linux` | Apache-2.0 |
+| [`code-server`](pkgs/code-server) | [coder/code-server](https://github.com/coder/code-server/releases) | `x86_64-linux` | MIT |
 
 `grok-build` e `claude-code` são **unfree**. O flake define `config.allowUnfree = true` para estes outputs.
 
@@ -22,6 +23,7 @@ Em vez de compilar do zero (ou esperar o canal oficial), este repositório baixa
 nix run github:jairbj/nixpkgs-fast-update#grok-build
 nix run github:jairbj/nixpkgs-fast-update#claude-code
 nix run github:jairbj/nixpkgs-fast-update#pad
+nix run github:jairbj/nixpkgs-fast-update#code-server
 ```
 
 ### Overlay (NixOS / home-manager)
@@ -41,6 +43,7 @@ nix run github:jairbj/nixpkgs-fast-update#pad
             pkgs.grok-build
             pkgs.claude-code
             pkgs.pad
+            pkgs.code-server
           ];
         }
       ];
@@ -56,6 +59,7 @@ environment.systemPackages = [
   inputs.nixpkgs-fast-update.packages.${pkgs.system}.grok-build
   inputs.nixpkgs-fast-update.packages.${pkgs.system}.claude-code
   inputs.nixpkgs-fast-update.packages.${pkgs.system}.pad
+  inputs.nixpkgs-fast-update.packages.${pkgs.system}.code-server
 ];
 ```
 
@@ -76,6 +80,7 @@ Scripts locais:
 ./pkgs/grok-build/update.sh      # só grok
 ./pkgs/claude-code/update.sh     # só claude (ou: ./pkgs/claude-code/update.sh 2.1.224)
 ./pkgs/pad/update.sh             # só pad
+./pkgs/code-server/update.sh     # só code-server
 ```
 
 ## Adicionar um pacote
@@ -97,4 +102,4 @@ A lógica de empacotamento segue de perto o nixpkgs:
 
 O código deste repositório (Nix, scripts, CI) está sob [MIT](LICENSE).
 
-Os binários empacotados permanecem sob as licenças dos respectivos vendors (xAI / Anthropic / Perpetual Software). Pacotes unfree estão marcados como `unfree` / `unfreeRedistributable`.
+Os binários empacotados permanecem sob as licenças dos respectivos vendors (xAI / Anthropic / Perpetual Software / Coder). Pacotes unfree estão marcados como `unfree` / `unfreeRedistributable`.

@@ -35,7 +35,7 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         run: |
           nix flake check -L
-          nix build -L .#grok-build .#claude-code .#pad
+          nix build -L .#grok-build .#claude-code .#pad .#code-server
 
       - name: Commit and push
         if: steps.changes.outputs.changed == 'true'
@@ -55,6 +55,10 @@ jobs:
           if git diff --name-only -- pkgs/pad/ | grep -q .; then
             ver=$(jq -r .version pkgs/pad/sources.json)
             packages+=("pad@$ver")
+          fi
+          if git diff --name-only -- pkgs/code-server/ | grep -q .; then
+            ver=$(jq -r .version pkgs/code-server/sources.json)
+            packages+=("code-server@$ver")
           fi
 
           msg="chore: update ${packages[*]}"

@@ -9,6 +9,7 @@ cd "$ROOT"
 bash "$ROOT/pkgs/grok-build/update.sh"
 bash "$ROOT/pkgs/claude-code/update.sh"
 bash "$ROOT/pkgs/pad/update.sh"
+bash "$ROOT/pkgs/code-server/update.sh"
 
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   if git diff --quiet -- pkgs/ && [[ -z "$(git ls-files --others --exclude-standard -- pkgs/)" ]]; then
