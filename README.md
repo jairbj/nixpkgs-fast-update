@@ -19,16 +19,16 @@ Em vez de compilar do zero (ou esperar o canal oficial), este repositório baixa
 ### Rodar direto
 
 ```bash
-nix run github:<owner>/nixpkgs-fast-update#grok-build
-nix run github:<owner>/nixpkgs-fast-update#claude-code
-nix run github:<owner>/nixpkgs-fast-update#pad
+nix run github:jairbj/nixpkgs-fast-update#grok-build
+nix run github:jairbj/nixpkgs-fast-update#claude-code
+nix run github:jairbj/nixpkgs-fast-update#pad
 ```
 
 ### Overlay (NixOS / home-manager)
 
 ```nix
 {
-  inputs.nixpkgs-fast-update.url = "github:<owner>/nixpkgs-fast-update";
+  inputs.nixpkgs-fast-update.url = "github:jairbj/nixpkgs-fast-update";
 
   outputs = { nixpkgs, nixpkgs-fast-update, ... }: {
     nixosConfigurations.hostname = nixpkgs.lib.nixosSystem {
