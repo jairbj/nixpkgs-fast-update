@@ -35,7 +35,7 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         run: |
           nix flake check -L
-          nix build -L .#grok-build .#claude-code .#pad .#code-server
+          nix build -L .#grok-build .#claude-code .#pad .#code-server .#antigravity-cli
 
       - name: Commit and push
         if: steps.changes.outputs.changed == 'true'
@@ -59,6 +59,10 @@ jobs:
           if git diff --name-only -- pkgs/code-server/ | grep -q .; then
             ver=$(jq -r .version pkgs/code-server/sources.json)
             packages+=("code-server@$ver")
+          fi
+          if git diff --name-only -- pkgs/antigravity-cli/ | grep -q .; then
+            ver=$(jq -r .version pkgs/antigravity-cli/sources.json)
+            packages+=("antigravity-cli@$ver")
           fi
 
           msg="chore: update ${packages[*]}"

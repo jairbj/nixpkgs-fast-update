@@ -27,6 +27,7 @@
             claude-code = pkgs.callPackage ./pkgs/claude-code/package.nix { };
             pad = pkgs.callPackage ./pkgs/pad/package.nix { };
             code-server = pkgs.callPackage ./pkgs/code-server/package.nix { };
+            antigravity-cli = pkgs.callPackage ./pkgs/antigravity-cli/package.nix { };
           };
         in
         packages
@@ -40,6 +41,7 @@
         claude-code = final.callPackage ./pkgs/claude-code/package.nix { };
         pad = final.callPackage ./pkgs/pad/package.nix { };
         code-server = final.callPackage ./pkgs/code-server/package.nix { };
+        antigravity-cli = final.callPackage ./pkgs/antigravity-cli/package.nix { };
       };
 
       checks = forAllSystems (
@@ -52,6 +54,7 @@
           claude-code = self.packages.${system}.claude-code;
           pad = self.packages.${system}.pad;
           code-server = self.packages.${system}.code-server;
+          antigravity-cli = self.packages.${system}.antigravity-cli;
         }
       );
 

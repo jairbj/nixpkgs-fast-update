@@ -12,8 +12,9 @@ Em vez de compilar do zero (ou esperar o canal oficial), este repositório baixa
 | [`claude-code`](pkgs/claude-code) | [Anthropic releases](https://downloads.claude.ai/claude-code-releases) | `x86_64-linux` | unfree |
 | [`pad`](pkgs/pad) | [PerpetualSoftware/pad](https://github.com/PerpetualSoftware/pad/releases) | `x86_64-linux` | Apache-2.0 |
 | [`code-server`](pkgs/code-server) | [coder/code-server](https://github.com/coder/code-server/releases) | `x86_64-linux` | MIT |
+| [`antigravity-cli`](pkgs/antigravity-cli) | [antigravity.google](https://antigravity.google) | `x86_64-linux` | unfree |
 
-`grok-build` e `claude-code` são **unfree**. O flake define `config.allowUnfree = true` para estes outputs.
+`grok-build`, `claude-code` e `antigravity-cli` são **unfree**. O flake define `config.allowUnfree = true` para estes outputs.
 
 ## Uso
 
@@ -24,6 +25,7 @@ nix run github:jairbj/nixpkgs-fast-update#grok-build
 nix run github:jairbj/nixpkgs-fast-update#claude-code
 nix run github:jairbj/nixpkgs-fast-update#pad
 nix run github:jairbj/nixpkgs-fast-update#code-server
+nix run github:jairbj/nixpkgs-fast-update#antigravity-cli
 ```
 
 ### Overlay (NixOS / home-manager)
@@ -44,6 +46,7 @@ nix run github:jairbj/nixpkgs-fast-update#code-server
             pkgs.claude-code
             pkgs.pad
             pkgs.code-server
+            pkgs.antigravity-cli
           ];
         }
       ];
@@ -60,6 +63,7 @@ environment.systemPackages = [
   inputs.nixpkgs-fast-update.packages.${pkgs.system}.claude-code
   inputs.nixpkgs-fast-update.packages.${pkgs.system}.pad
   inputs.nixpkgs-fast-update.packages.${pkgs.system}.code-server
+  inputs.nixpkgs-fast-update.packages.${pkgs.system}.antigravity-cli
 ];
 ```
 
@@ -81,6 +85,7 @@ Scripts locais:
 ./pkgs/claude-code/update.sh     # só claude (ou: ./pkgs/claude-code/update.sh 2.1.224)
 ./pkgs/pad/update.sh             # só pad
 ./pkgs/code-server/update.sh     # só code-server
+./pkgs/antigravity-cli/update.sh # só antigravity-cli
 ```
 
 ## Adicionar um pacote
@@ -97,6 +102,7 @@ A lógica de empacotamento segue de perto o nixpkgs:
 
 - [`grok-build`](https://github.com/NixOS/nixpkgs/tree/master/pkgs/by-name/gr/grok-build)
 - [`claude-code`](https://github.com/NixOS/nixpkgs/tree/master/pkgs/by-name/cl/claude-code) (binário no master)
+- [`antigravity-cli`](https://github.com/NixOS/nixpkgs/tree/master/pkgs/by-name/an/antigravity-cli)
 
 ## Licença
 
