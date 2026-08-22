@@ -3,6 +3,7 @@
   stdenvNoCC,
   fetchurl,
   autoPatchelfHook,
+  makeBinaryWrapper,
   versionCheckHook,
 }:
 let
@@ -25,7 +26,10 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   sourceRoot = ".";
 
-  nativeBuildInputs = lib.optionals stdenvNoCC.hostPlatform.isElf [ autoPatchelfHook ];
+  nativeBuildInputs = [
+    makeBinaryWrapper
+  ]
+  ++ lib.optionals stdenvNoCC.hostPlatform.isElf [ autoPatchelfHook ];
 
   dontConfigure = true;
   dontBuild = true;
@@ -34,6 +38,11 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     runHook preInstall
 
     install -Dm755 antigravity $out/bin/agy
+
+    # The store is read-only, so the bundled auto-updater can only fail or
+    # write a stray copy outside of Nix's control.
+    wrapProgram $out/bin/agy \
+      --set AGY_CLI_DISABLE_AUTO_UPDATE 1
 
     runHook postInstall
   '';
